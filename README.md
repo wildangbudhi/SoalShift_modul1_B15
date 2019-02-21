@@ -27,8 +27,8 @@
       ```
     **Crontab :** 
     ```sh
-    14 14 *  2  5   /bin/bash /home/wildangbudhi/NO1.sh
-    14 14 14 2  *   /bin/bash /home/wildangbudhi/NO1.sh
+    14 14 *  2  5   /bin/bash /home/wildangbudhi/soal1.sh
+    14 14 14 2  *   /bin/bash /home/wildangbudhi/soal1.sh
     ```
     <br>
 2. Anda merupakan pegawai magang pada sebuah perusahaan retail, dan anda dimintauntuk memberikan laporan berdasarkan file WA_Sales_Products_2012-14.csv. Laporan yang diminta berupa:
