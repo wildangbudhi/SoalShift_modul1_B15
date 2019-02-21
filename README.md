@@ -164,4 +164,7 @@
 			print "- " namaProduk[n-i] "(" produk[namaProduk[n-i]] ")" >> "HasilSoalC.txt"
 		}
 		```
-   	
+   	- Passing variabel bash ke dalam AWK
+		```sh
+		produkLine="${produkLine[$i]}" negara="${country}"
+		```
