@@ -39,7 +39,7 @@
     
     c. Tentukan tiga product yang memberikan penjualan(quantity) terbanyak berdasarkan tiga product line yang didapatkan pada soal poin b.
 
-    ### JAWAB : [NO2.sh](/NO2.sh)
+    ### JAWAB : [soal2.sh](/soal2.sh)
     
     a. Tentukan negara dengan penjualan(quantity) terbanyak pada tahun 2012.
     ```
