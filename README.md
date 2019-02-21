@@ -40,7 +40,6 @@
     c. Tentukan tiga product yang memberikan penjualan(quantity) terbanyak berdasarkan tiga product line yang didapatkan pada soal poin b.
 
     ### JAWAB : [soal2.sh](/soal2.sh)
-    
     a. Tentukan negara dengan penjualan(quantity) terbanyak pada tahun 2012.
     ```
     country=$( 
@@ -58,6 +57,26 @@
       ' OFS=',' WA_Sales_Products_2012-14.csv 
     ) 
     ```
-    
-    
-    
+    **PENJELSAN :**
+	- Masukkan hasil output AWK kedalam bash Variable
+		```sh
+		country=$(--------AWK CODE--------)
+		```
+    - Pilih data yang bukan merupaka Header dari data dan memiliki Atribute Tahun dengan nilai 2012 lalu lakukan penjumlahan setiap penjualan dengan metode Counting Array namun menggunakan Dictionary dikarenakan key tidak Integer seperti index Array
+		```sh
+		if(NR>1 && $7==2012) { penjualan[$1]=penjualan[$1]+$10 }
+		```
+	- Urutkan (sort) Dictionary descending dengan meletakkan key (berisi nama negara) yang pada array 'country' dan mereturnkan jumlah data Dictionary di masukkan ke dalam variabel n. 
+		```sh
+		n=asorti(penjualan,country)
+		```
+	- Cetak pada file untuk hasil
+		```sh
+		print "Negara dengan penjualan(quantity) terbanyak pada tahun 2012 :" > "HasilSoalA.txt"
+		print "- Negara : " country[n] > "HasilSoalA.txt"
+		print "- Penjualan : " penjualan[country[n]] > "HasilSoalA.txt"
+	    ```
+	- Print untuk output yang nantinya digunakan untuk variable bash
+		```sh
+		print country[n]
+		```
