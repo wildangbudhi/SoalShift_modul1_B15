@@ -1,7 +1,7 @@
 #check if pass passed
 pass=string
 k=1
-#mkdir /root/Documents/ss1/pw
+#mkdir /root/Documents/sisop1/pw
 while [ $k -lt 7 ]
 do
 	while
@@ -35,7 +35,7 @@ do
 	do :;done
 
 	i=1
-	file=/root/Documents/ss1/pw/password
+	file=/root/Documents/sisop1/pw/password
 	value=coba
 	for f in $file*
 	do
