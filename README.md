@@ -187,7 +187,7 @@ b. Jumlah field (number of field) pada baris tersebut berjumlah kurang dari 13.<
 c. Masukkan record tadi ke dalam file logs yang berada pada direktori /home/[user]/modul1. <br>
 d. Jalankan script tadi setiap 6 menit dari menit ke 2 hingga 30, contoh 13:02, 13:08, 13:14, dst. <br>
 
-### JAWAB : [soal1.sh](/soal1.sh)
+### JAWAB : [soal5.sh](/soal5.sh)
 ### PENJELASAN :
 **Script :**
 - Filter Data yang tidak mengandung string "Sudo", tetapi mengandung "cron"
