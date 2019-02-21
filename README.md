@@ -36,6 +36,9 @@ Hint: Base64, Hexdump
 14 14 *  2  5   /bin/bash /home/wildangbudhi/soal1.sh
 14 14 14 2  *   /bin/bash /home/wildangbudhi/soal1.sh
 ```
+
+<br>
+
 ## NO2
 Anda merupakan pegawai magang pada sebuah perusahaan retail, dan anda dimintauntuk memberikan laporan berdasarkan file WA_Sales_Products_2012-14.csv. Laporan yang diminta berupa: <br>
 a.Tentukan negara dengan penjualan(quantity) terbanyak pada tahun 2012.	<br>
@@ -171,6 +174,10 @@ c. Tentukan tiga product yang memberikan penjualan(quantity) terbanyak berdasark
 		```sh
 		produkLine="${produkLine[$i]}" negara="${country}"
 		```
+
+<br>
+
+
 ## NO5
 Buatlah sebuah script bash untuk menyimpan record dalam syslog yang memenuhi kriteria berikut:
 a. Tidak mengandung string “sudo”, tetapi mengandung string “cron”, serta buatlah pencarian stringnya tidak bersifat case sensitive, sehingga huruf kapital atau tidak, tidak menjadi masalah.<br>
