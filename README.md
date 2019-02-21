@@ -4,7 +4,7 @@
 
     Hint: Base64, Hexdump
 
-    ### JAWAB : [NO1.sh](/NO1.sh)
+    ### JAWAB : [soal1.sh](/soal1.sh)
     
     ### PENJELASAN :
     <br> **Script untuk Decrypt :**
