@@ -80,3 +80,34 @@
 		```sh
 		print country[n]
 		```
+    b. Tentukan tiga product line yang memberikan penjualan(quantity) terbanyak pada soal poin a.
+    ```
+    readarray -t produkLine < <(
+	  awk -F',' '
+	    {
+	      if(NR>1 && $1==negara && $7==2012) { produkLine[$4]=produkLine[$4]+$10 }
+	    }
+	    END{
+	      n=asorti(produkLine, namaProdukLine)
+	      print "Tiga product line yang memberikan penjualan(quantity) terbanyak pada negara " negara " : " > "HasilSoalB.txt"
+	      for (i=0; i<3; i++){
+		print "- " namaProdukLine[n-i] "(" produkLine[namaProdukLine[n-i]] ")" > "HasilSoalB.txt"
+		print namaProdukLine[n-i]
+	      }
+	    }
+	  ' OFS=',' negara="${country}"  WA_Sales_Products_2012-14.csv
+	)
+    ```
+    **PENJELSAN :**
+	- Masukkan hasil output AWK kedalam bash Variable array dengan membedakan element arraynya dari '\n'
+		```sh
+		readarray -t produkLine < <(--------AWK CODE--------)
+		```
+   	- Pilih data yang bukan merupaka Header dari data, memiliki Atribute Tahun dengan nilai 2012 dan memiliki Atribute Negara bernilai sama dengan Variable negara. Lalu lakukan penjumlahan setiap penjualan dengan metode Counting Array namun menggunakan Dictionary dikarenakan key tidak Integer seperti index Array
+		```sh
+		if(NR>1 && $1==negara && $7==2012) { produkLine[$4]=produkLine[$4]+$10 }
+		```
+	- Urutkan (sort) Dictionary descending dengan meletakkan key (berisi nama ProdukLine) yang pada array 'produkLine' dan mereturnkan jumlah data Dictionary di masukkan ke dalam variabel n.
+		```sh
+		 n=asorti(penjualan,country)
+		```
