@@ -25,8 +25,39 @@
             i=$(($i+1))
         done
       ```
-    <br> **Crontab :** 
+    **Crontab :** 
     ```sh
     14 14 *  2  5   /bin/bash /home/wildangbudhi/NO1.sh
     14 14 14 2  *   /bin/bash /home/wildangbudhi/NO1.sh
     ```
+    <br>
+2. Anda merupakan pegawai magang pada sebuah perusahaan retail, dan anda dimintauntuk memberikan laporan berdasarkan file WA_Sales_Products_2012-14.csv. Laporan yang diminta berupa:
+
+    a. Tentukan negara dengan penjualan(quantity) terbanyak pada tahun 2012.
+    
+    b. Tentukan tiga product line yang memberikan penjualan(quantity) terbanyak pada soal poin a.
+    
+    c. Tentukan tiga product yang memberikan penjualan(quantity) terbanyak berdasarkan tiga product line yang didapatkan pada soal poin b.
+
+    ### JAWAB : [NO2.sh](/NO2.sh)
+    
+    a. Tentukan negara dengan penjualan(quantity) terbanyak pada tahun 2012.
+    ```
+    country=$( 
+      awk -F',' '
+        {
+          if(NR>1 && $7==2012) { penjualan[$1]=penjualan[$1]+$10 }
+        }
+        END{
+          n=asorti(penjualan,country)
+          print "Negara dengan penjualan(quantity) terbanyak pada tahun 2012 :" > "HasilSoalA.txt"
+          print "- Negara : " country[n] > "HasilSoalA.txt"
+          print "- Penjualan : " penjualan[country[n]] > "HasilSoalA.txt"
+          print country[n]
+        }
+      ' OFS=',' WA_Sales_Products_2012-14.csv 
+    ) 
+    ```
+    
+    
+    
