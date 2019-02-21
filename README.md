@@ -107,9 +107,9 @@
 		```sh
 		if(NR>1 && $1==negara && $7==2012) { produkLine[$4]=produkLine[$4]+$10 }
 		```
-	- Urutkan (sort) Dictionary descending dengan meletakkan key (berisi nama ProdukLine) yang pada array 'produkLine' dan mereturnkan jumlah data Dictionary di masukkan ke dalam variabel n.
+	- Urutkan (sort) Dictionary descending dengan meletakkan key (berisi nama ProdukLine) yang pada array 'namaProdukLine' dan mereturnkan jumlah data Dictionary di masukkan ke dalam variabel n.
 		```sh
-		 n=asorti(penjualan,country)
+		n=asorti(produkLine, namaProdukLine)
 		```
 	- Cetak pada file untuk hasil
 		```sh
@@ -152,5 +152,16 @@
 	- Pilih data yang bukan merupaka Header dari data, memiliki Atribute Tahun dengan nilai 2012, memiliki Atribute Negara bernilai sama dengan Variable negara dan memiliki Atribute ProdukLine sama dengan variabel produkLine. Lalu lakukan penjumlahan setiap penjualan dengan metode Counting Array namun menggunakan Dictionary dikarenakan key tidak Integer seperti index Array
 		```sh
 		if(NR>1 && $4==produkLine && $1==negara && $7==2012) { produk[$5]=produk[$5]+$10 }
+		```
+	- Urutkan (sort) Dictionary descending dengan meletakkan key (berisi nama Produk) yang pada array 'namaProduk' dan mereturnkan jumlah data Dictionary di masukkan ke dalam variabel n.
+		```sh
+		n=asorti(produk, namaProduk)
+		```
+	- Cetak pada file untuk hasil
+		```sh
+		print "Tiga product yang memberikan penjualan(quantity) terbanyak berdasarkan tiga product line yang didapatkan pada Produk Line " produkLine " : " >> "HasilSoalC.txt"
+		for (i=0; i<3; i++){
+			print "- " namaProduk[n-i] "(" produk[namaProduk[n-i]] ")" >> "HasilSoalC.txt"
+		}
 		```
    	
