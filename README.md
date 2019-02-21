@@ -41,7 +41,7 @@
 
     ### JAWAB : [soal2.sh](/soal2.sh)
     a. Tentukan negara dengan penjualan(quantity) terbanyak pada tahun 2012.
-    ```
+    ```sh
     country=$( 
       awk -F',' '
         {
@@ -81,7 +81,7 @@
 		print country[n]
 		```
     b. Tentukan tiga product line yang memberikan penjualan(quantity) terbanyak pada soal poin a.
-    ```
+    ```sh
     readarray -t produkLine < <(
 	  awk -F',' '
 	    {
@@ -123,3 +123,34 @@
 		```sh
 		negara="${country}"
 		```
+    c. Tentukan tiga product yang memberikan penjualan(quantity) terbanyak berdasarkan tiga product line yang didapatkan pada soal poin b.
+    ```sh
+    for i in 0 1 2
+	do
+	  awk -F',' '
+	    {
+		if(NR>1 && $4==produkLine && $1==negara && $7==2012) { produk[$5]=produk[$5]+$10 }
+	    }
+	    END{
+	      n=asorti(produk, namaProduk)
+	      print "Tiga product yang memberikan penjualan(quantity) terbanyak berdasarkan tiga product line yang didapatkan pada Produk Line " produkLine " : " >> "HasilSoalC.txt"
+	      for (i=0; i<3; i++){
+		print "- " namaProduk[n-i] "(" produk[namaProduk[n-i]] ")" >> "HasilSoalC.txt"
+	      }
+	    }
+	  ' OFS=',' produkLine="${produkLine[$i]}" negara="${country}"  WA_Sales_Products_2012-14.csv
+	done
+    ```
+    **PENJELSAN :**
+	- Loop dari 0 sampai 2 untuk mengakses array hasil dari soal b
+		```sh
+		for i in 0 1 2
+		do
+		  ------ code ------
+		done
+		```
+	- Pilih data yang bukan merupaka Header dari data, memiliki Atribute Tahun dengan nilai 2012, memiliki Atribute Negara bernilai sama dengan Variable negara dan memiliki Atribute ProdukLine sama dengan variabel produkLine. Lalu lakukan penjumlahan setiap penjualan dengan metode Counting Array namun menggunakan Dictionary dikarenakan key tidak Integer seperti index Array
+		```sh
+		if(NR>1 && $4==produkLine && $1==negara && $7==2012) { produk[$5]=produk[$5]+$10 }
+		```
+   	
