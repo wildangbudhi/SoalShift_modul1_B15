@@ -4,6 +4,7 @@
 
 1. [NO1](#NO1)
 2. [NO2](#NO2)
+5. [NO5](#NO5)
 
 ## NO1
 Anda diminta tolong oleh teman anda untuk mengembalikan filenya yang telah dienkripsi oleh seseorang menggunakan bash script, file yang dimaksud adalah nature.zip. Karena terlalu mudah kalian memberikan syarat akan membuka seluruh file tersebut jika pukul 14:14 pada tanggal 14 Februari atau hari tersebut adalah hari jumat pada bulan Februari.
@@ -12,7 +13,7 @@ Hint: Base64, Hexdump
 
 ### JAWAB : [soal1.sh](/soal1.sh)
 ### PENJELASAN :
-<br> **Script untuk Decrypt :**
+**Script untuk Decrypt :**
 - Extract file "nature.zip" :
 	```sh
 	unzip nature.zip -d "./"
@@ -170,4 +171,26 @@ c. Tentukan tiga product yang memberikan penjualan(quantity) terbanyak berdasark
 		```sh
 		produkLine="${produkLine[$i]}" negara="${country}"
 		```
+## NO5
+Buatlah sebuah script bash untuk menyimpan record dalam syslog yang memenuhi kriteria berikut:
+a. Tidak mengandung string “sudo”, tetapi mengandung string “cron”, serta buatlah pencarian stringnya tidak bersifat case sensitive, sehingga huruf kapital atau tidak, tidak menjadi masalah.<br>
+b. Jumlah field (number of field) pada baris tersebut berjumlah kurang dari 13.<br>
+c. Masukkan record tadi ke dalam file logs yang berada pada direktori /home/[user]/modul1. <br>
+d. Jalankan script tadi setiap 6 menit dari menit ke 2 hingga 30, contoh 13:02, 13:08, 13:14, dst. <br>
 
+### JAWAB : [soal1.sh](/soal1.sh)
+### PENJELASAN :
+**Script :**
+- Filter Data yang tidak mengandung string "Sudo", tetapi mengandung "cron"
+	```sh
+	(!(/[sS][uU][dD][oO]/) && (/[cC][rR][oO][nN]/) && (NF<13))
+	```
+- Output pada file direktori /home/[user]/modul1
+	```sh
+	> /home/wildangbudhi/modul1
+	```
+
+**Crontab :** 
+```sh
+2-30/6 * * * *   /bin/bash /home/wildangbudhi/soal5.sh
+```
