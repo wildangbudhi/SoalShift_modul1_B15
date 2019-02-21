@@ -1,8 +1,9 @@
 # Laporan Soal Shift Modul 1
 
- Table of Contents
+ Daftar Isi
 
 1. [NO1](#NO1)
+2. [NO2](#NO2)
 
 ## NO1
 Anda diminta tolong oleh teman anda untuk mengembalikan filenya yang telah dienkripsi oleh seseorang menggunakan bash script, file yang dimaksud adalah nature.zip. Karena terlalu mudah kalian memberikan syarat akan membuka seluruh file tersebut jika pukul 14:14 pada tanggal 14 Februari atau hari tersebut adalah hari jumat pada bulan Februari.
