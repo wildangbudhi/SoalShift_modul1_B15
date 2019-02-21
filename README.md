@@ -111,3 +111,15 @@
 		```sh
 		 n=asorti(penjualan,country)
 		```
+	- Cetak pada file untuk hasil
+		```sh
+		 print "- " namaProdukLine[n-i] "(" produkLine[namaProdukLine[n-i]] ")" > "HasilSoalB.txt"
+		```
+	- Print untuk output yang nantinya digunakan untuk variable array bash
+		```sh
+		print namaProdukLine[n-i]
+		```
+	- Passing variabel bash ke dalam AWK
+		```sh
+		negara="${country}"
+		```
