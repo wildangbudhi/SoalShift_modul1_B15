@@ -1,7 +1,7 @@
-#!/bin/bash
+echo "Enter the file: "
+read times
+hour=${times:0:2}
 
-upper=ABCDEFGHIJKLMNOPQRSTUVWXYZ
-lower=abcdefghijklmnopqrstuvwxyz
-n=`echo "$1" | awk -F: '{print $1}'`
-cd ~/modul1
-tr "${upper:n}${upper:0:n}${lower:n}${lower:0:n}" "$upper$lower" <<< `cat "$1"` > ~/sisop1/"$1_decrypted"
+lowercase="abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"
+uppercase="ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
+awk '{print}' "/home/paramastri/sisop19/modul1/nomor4_enkripsi/$times" | tr "${lowercase:$hour:26}${uppercase:$hour:26}" "${lowercase:0:26}${uppercase:0:26}" | awk '{print}' > "/home/hp/sisop1/soal4_decrypt/$times"
