@@ -4,6 +4,7 @@
 
 1. [NO1](#NO1)
 2. [NO2](#NO2)
+3. [NO3](#NO3)
 4. [NO4](#NO4)
 5. [NO5](#NO5)
 
@@ -180,6 +181,24 @@ c. Tentukan tiga product yang memberikan penjualan(quantity) terbanyak berdasark
 
 <br>
 
+## NO3
+Buatlah sebuah script bash yang dapat menghasilkan password secara acak
+sebanyak 12 karakter yang terdapat huruf besar, huruf kecil, dan angka. Password
+acak tersebut disimpan pada file berekstensi .txt dengan ketentuan pemberian nama
+sebagai berikut:
+
+a. Jika tidak ditemukan file password1.txt maka password acak tersebut
+disimpan pada file bernama password1.txt
+b. Jika file password1.txt sudah ada maka password acak baru akan
+disimpan pada file bernama password2.txt dan begitu seterusnya.
+c. Urutan nama file tidak boleh ada yang terlewatkan meski filenya
+dihapus.
+d. Password yang dihasilkan tidak boleh sama.
+
+### JAWAB: [soal3.sh](/soal3.sh)
+### PENJELASAN:
+
+
 ## NO4
 Lakukan backup file syslog setiap jam dengan format nama file “jam:menit tanggal-
 bulan-tahun”. Isi dari file backup terenkripsi dengan konversi huruf (string
@@ -189,10 +208,14 @@ berikut:
 a. Huruf b adalah alfabet kedua, sedangkan saat ini waktu menunjukkan
 pukul 12, sehingga huruf b diganti dengan huruf alfabet yang memiliki
 urutan ke 12+2 = 14.
+<br />
 b. Hasilnya huruf b menjadi huruf n karena huruf n adalah huruf ke
 empat belas, dan seterusnya.
+<br />
 c. setelah huruf z akan kembali ke huruf a
+<br />
 d. Backup file syslog setiap jam.
+<br />
 e. dan buatkan juga bash script untuk dekripsinya.
 
 ### JAWAB: [soal4.sh](/soal4.sh)
