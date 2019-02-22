@@ -222,7 +222,7 @@ while test -e "password$suffix.txt"
  3. Kemudian, membuat nama file.
  <br />
 ```sh
-fname="password$suffix.txt" 
+fname="password$suffix.txt"
 ```
 <br />
 Kode di atas berfungsi untuk menamai file yang belum ada.
