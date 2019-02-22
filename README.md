@@ -219,18 +219,18 @@ while test -e "password$suffix.txt"
     done
  ```
  <br />
- 3. Kemudian, membuat nama file.
+ 3. Kemudian, membuat nama file.<br />
  ```sh
  fname="password$suffix.txt" 
  ```
  Kode di atas berfungsi untuk menamai file yang belum ada.
 <br />
-4. Menggunakan random string.
+4. Menggunakan random string.<br />
 ```sh
 randomnum=$(</dev/urandom tr -dc A-Z-a-z-0-9 | head -c12)
 ```
 Kita dapat menggunakan random string A-Z, a-z, dan 1-9 memakai ``/dev/urandom`` dengan ``tr``, lalu ambil bagian depan saja menggunakan ``head -c12``.<br />
-5. Mencetak password.
+5. Mencetak password.<br />
 ```sh
 echo "$randomnum" > "$fname"
 ```
