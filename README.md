@@ -232,7 +232,7 @@ Kita dapat menggunakan random string A-Z, a-z, dan 1-9 memakai ``/dev/urandom`` 
 ```sh
 echo "$randomnum" > "$fname"
 ```
-Terakhir, kita mencetak password acak  ke dalam sebuah file teks.
+Terakhir, kita mencetak password acak tersebut ke dalam sebuah file teks.
 
 ## NO4
 Lakukan backup file syslog setiap jam dengan format nama file “jam:menit tanggal-
