@@ -253,38 +253,57 @@ d. Backup file syslog setiap jam.
 <br />
 e. dan buatkan juga bash script untuk dekripsinya.
 
-### JAWAB: [soal4.sh](/soal4.sh)
-### PENJELASAN:
-**Script :**
+### JAWAB: [soal4_encrypt.sh](/soal4_encrypt.sh) | [soal4_decrypt.sh](./soal4_decrypt.sh)
+**Script Encrypt:**
 ```sh
-#!/bin/bash
+hour=`date +"%H"`
+filename=`date +"%H:%M %d-%m-%Y"`
 
-lowerCase=(a b c d e f g h i j k l m n o p q r s t u v w x y z)
-upperCase=(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z)
+lowercase="abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"
+uppercase="ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-tgl=`date +"%d"`
-bln=`date +"%m"`
-thn=`date +"%Y"`
-jam=`date +"%H"`
-menit=`date +"%M"`
+cat /var/log/syslog | tr "${lowercase:0:26}${uppercase:0:26}" "${lowercase:$hour:26}${uppercase:$hour:26}" > "/home/hp/sisop1/soal4_encrypt/$filename"
 
-home="/home/hp/ss1/modul1"
-namafile="$home/$jam:$menit $tgl-$bln-$thn.txt"
 
-bawah=${lowerCase[$jam]}
-atas=${upperCase[$jam]}
-
-cat "/var/log/syslog" | tr '[a-z]' "[$bawah-za-$bawah]" | tr '[A-Z]' "[$atas-ZA-$atas]" > "$namafile"
 ```
+**Script Decrypt:**
+```sh
+echo "Enter the file: "
+read times
+hour=${times:0:2}
 
-Menggunakan command tr. File syslog diambil dengan command cat setelah itu char yang berada pada range [a-z] akan diubah menjadi [c-za-c] satu persatu apabila $jam menunjukkan 2 (maksudnya a menjadi c, b menjadi d, c menjadi e, dst). Range [b-za-b] maksudnya adalah dari char b s/d z dilanjut a s/d b. Selanjutnya untuk huruf besar dilakukan cara yang sama seperti sebelumnya.
+lowercase="abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"
+uppercase="ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
+awk '{print}' "/home/paramastri/sisop19/modul1/nomor4_enkripsi/$times" | tr "${lowercase:$hour:26}${uppercase:$hour:26}" "${lowercase:0:26}${uppercase:0:26}" | awk '{print}' > "/home/hp/sisop1/soal4_decrypt/$times"
+
+```
+**crobtab -e:**
 <br />
-Kemudian, menggunakan crontab dengan konfigurasi sebagai berikut:
-```sh
-0 * * * * /bin/bash /path/to/script
-#atau
-@hourly /bin/bash /path/to/script  
-```
+``
+@hourly /bin/bash /home/hp/sisop1/soal4_encrypt.sh
+``
+### PENJELASAN:
+1. ``sh
+hour=`date +"%H"`
+``<br /> 
+Sintaks ini berfungsi supaya karakter tertentu dapat diterjemahkan dengan urutan (tanggal file terbuat) + (urutan alfabet)
+2. ``sh
+tr "${lowercase:0:26}${uppercase:0:26}" "${lowercase:$hour:26}${uppercase:$hour:26}"
+`` <br />
+Sintaks 'tr' ditulis seperti di atas ini karena ketika setiap huruf sudah diterjemahkan, urutan alfabet pun ikut tergeser.
+3. ``
+lowercase="abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"
+``
+``
+uppercase="ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
+``
+<br />
+4. Urutan alfabel ditulis sebanyak 2 kali supaya alfabet melakukan translate dan bergeser dengan tepat. Kemungkinan terburuk yang bisa terjadi adalah ketika file terbut pada pukul 23. Sehingga tentu huruf z akan menjadi urutan ke 23 + 26 = 49. Hal ini akan teratasi karena jumlah alfabet yang dituliskan 2 kali menghasilkan 52 karakter yang dimana menanggung urutan huruf z yang menjadi ke 49.
+<br />
+5. Untuk melakukan back up file syslog setiap jam, dituliskan pada pengaturan crontab sebagai berikut: @hourly /bin/bash /home/hp/sisop1/soal4_encrypt.sh
+
+
+
 
 ## NO5
 Buatlah sebuah script bash untuk menyimpan record dalam syslog yang memenuhi kriteria berikut:
