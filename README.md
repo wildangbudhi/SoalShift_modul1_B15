@@ -4,6 +4,7 @@
 
 1. [NO1](#NO1)
 2. [NO2](#NO2)
+4. [NO4](#NO4)
 5. [NO5](#NO5)
 
 <br>
@@ -65,7 +66,7 @@ c. Tentukan tiga product yang memberikan penjualan(quantity) terbanyak berdasark
 	  ' OFS=',' WA_Sales_Products_2012-14.csv 
 	) 
 	```
-	**PENJELSAN :**
+	**PENJELASAN :**
 	- Masukkan hasil output AWK kedalam bash Variable
 		```sh
 		country=$(--------AWK CODE--------)
@@ -106,7 +107,7 @@ c. Tentukan tiga product yang memberikan penjualan(quantity) terbanyak berdasark
 	  ' OFS=',' negara="${country}"  WA_Sales_Products_2012-14.csv
 	)
     ```
-    **PENJELSAN :**
+    **PENJELASAN :**
 	- Masukkan hasil output AWK kedalam bash Variable array dengan membedakan element arraynya dari '\n'
 		```sh
 		readarray -t produkLine < <(--------AWK CODE--------)
@@ -149,7 +150,7 @@ c. Tentukan tiga product yang memberikan penjualan(quantity) terbanyak berdasark
 	  ' OFS=',' produkLine="${produkLine[$i]}" negara="${country}"  WA_Sales_Products_2012-14.csv
 	done
     ```
-    **PENJELSAN :**
+    **PENJELASAN :**
 	- Loop dari 0 sampai 2 untuk mengakses array hasil dari soal b
 		```sh
 		for i in 0 1 2
@@ -179,6 +180,53 @@ c. Tentukan tiga product yang memberikan penjualan(quantity) terbanyak berdasark
 
 <br>
 
+## NO4
+Lakukan backup file syslog setiap jam dengan format nama file “jam:menit tanggal-
+bulan-tahun”. Isi dari file backup terenkripsi dengan konversi huruf (string
+manipulation) yang disesuaikan dengan jam dilakukannya backup misalkan sebagai
+berikut:
+
+a. Huruf b adalah alfabet kedua, sedangkan saat ini waktu menunjukkan
+pukul 12, sehingga huruf b diganti dengan huruf alfabet yang memiliki
+urutan ke 12+2 = 14.
+b. Hasilnya huruf b menjadi huruf n karena huruf n adalah huruf ke
+empat belas, dan seterusnya.
+c. setelah huruf z akan kembali ke huruf a
+d. Backup file syslog setiap jam.
+e. dan buatkan juga bash script untuk dekripsinya.
+
+### JAWAB: [soal4.sh](/soal4.sh)
+### PENJELASAN:
+**Script :**
+```ruby
+#!/bin/bash
+
+lowerCase=(a b c d e f g h i j k l m n o p q r s t u v w x y z)
+upperCase=(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z)
+
+tgl=`date +"%d"`
+bln=`date +"%m"`
+thn=`date +"%Y"`
+jam=`date +"%H"`
+menit=`date +"%M"`
+
+home="/home/hp/ss1/modul1"
+namafile="$home/$jam:$menit $tgl-$bln-$thn.txt"
+
+bawah=${lowerCase[$jam]}
+atas=${upperCase[$jam]}
+
+cat "/var/log/syslog" | tr '[a-z]' "[$bawah-za-$bawah]" | tr '[A-Z]' "[$atas-ZA-$atas]" > "$namafile"
+```
+
+Menggunakan command tr. File syslog diambil dengan command cat setelah itu char yang berada pada range [a-z] akan diubah menjadi [c-za-c] satu persatu apabila $jam menunjukkan 2 (maksudnya a menjadi c, b menjadi d, c menjadi e, dst). Range [b-za-b] maksudnya adalah dari char b s/d z dilanjut a s/d b. Selanjutnya untuk huruf besar dilakukan cara yang sama seperti sebelumnya.
+<br />
+Kemudian, menggunakan crontab dengan konfigurasi sebagai berikut:
+```ruby
+0 * * * * /bin/bash /path/to/script
+#atau
+@hourly /bin/bash /path/to/script  
+```
 
 ## NO5
 Buatlah sebuah script bash untuk menyimpan record dalam syslog yang memenuhi kriteria berikut:
