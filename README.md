@@ -189,10 +189,13 @@ sebagai berikut:
 
 a. Jika tidak ditemukan file password1.txt maka password acak tersebut
 disimpan pada file bernama password1.txt
+<br />
 b. Jika file password1.txt sudah ada maka password acak baru akan
 disimpan pada file bernama password2.txt dan begitu seterusnya.
+<br />
 c. Urutan nama file tidak boleh ada yang terlewatkan meski filenya
 dihapus.
+<br />
 d. Password yang dihasilkan tidak boleh sama.
 
 ### JAWAB: [soal3.sh](/soal3.sh)
