@@ -274,7 +274,7 @@ hour=${times:0:2}
 
 lowercase="abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"
 uppercase="ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
-awk '{print}' "/home/hp/sisop19/modul1/nomor4_enkripsi/$times" | tr "${lowercase:$hour:26}${uppercase:$hour:26}" "${lowercase:0:26}${uppercase:0:26}" | awk '{print}' > "/home/hp/sisop1/soal4_decrypt/$times"
+awk '{print}' "/home/hp/sisop19/nomor4_enkripsi/$times" | tr "${lowercase:$hour:26}${uppercase:$hour:26}" "${lowercase:0:26}${uppercase:0:26}" | awk '{print}' > "/home/hp/sisop1/soal4_decrypt/$times"
 
 ```
 **crobtab -e:**
@@ -296,14 +296,13 @@ lowercase="abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"
 ``
 ``
 uppercase="ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
+`` <br />
+Urutan alfabel ditulis sebanyak 2 kali supaya alfabet melakukan translate dan bergeser dengan tepat. Kemungkinan terburuk yang bisa terjadi adalah ketika file terbut pada pukul 23. Sehingga tentu huruf z akan menjadi urutan ke 23 + 26 = 49. Hal ini akan teratasi karena jumlah alfabet yang dituliskan 2 kali menghasilkan 52 karakter yang dimana menanggung urutan huruf z yang menjadi ke 49.
+<br />
+4. Untuk melakukan back up file syslog setiap jam, dituliskan pada pengaturan crontab sebagai berikut: 
 ``
-<br />
-4. Urutan alfabel ditulis sebanyak 2 kali supaya alfabet melakukan translate dan bergeser dengan tepat. Kemungkinan terburuk yang bisa terjadi adalah ketika file terbut pada pukul 23. Sehingga tentu huruf z akan menjadi urutan ke 23 + 26 = 49. Hal ini akan teratasi karena jumlah alfabet yang dituliskan 2 kali menghasilkan 52 karakter yang dimana menanggung urutan huruf z yang menjadi ke 49.
-<br />
-5. Untuk melakukan back up file syslog setiap jam, dituliskan pada pengaturan crontab sebagai berikut: @hourly /bin/bash /home/hp/sisop1/soal4_encrypt.sh
-
-
-
+@hourly /bin/bash /home/hp/sisop1/soal4_encrypt.sh
+``
 
 ## NO5
 Buatlah sebuah script bash untuk menyimpan record dalam syslog yang memenuhi kriteria berikut:
