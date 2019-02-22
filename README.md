@@ -298,8 +298,7 @@ lowercase="abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"
 uppercase="ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
 `` <br />
 Urutan alfabel ditulis sebanyak 2 kali supaya alfabet melakukan translate dan bergeser dengan tepat. Kemungkinan terburuk yang bisa terjadi adalah ketika file terbut pada pukul 23. Sehingga tentu huruf z akan menjadi urutan ke 23 + 26 = 49. Hal ini akan teratasi karena jumlah alfabet yang dituliskan 2 kali menghasilkan 52 karakter yang dimana menanggung urutan huruf z yang menjadi ke 49.
-<br />
-4. Untuk melakukan back up file syslog setiap jam, dituliskan pada pengaturan crontab sebagai berikut: 
+4. Untuk melakukan back up file syslog setiap jam, dituliskan pada pengaturan crontab sebagai berikut: <br />
 ``
 @hourly /bin/bash /home/hp/sisop1/soal4_encrypt.sh
 ``
