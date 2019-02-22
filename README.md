@@ -230,7 +230,7 @@ Kode di atas berfungsi untuk menamai file yang belum ada.
 4. Menggunakan random string.<br />
 ```sh
 randomnum=$(</dev/urandom tr -dc A-Z-a-z-0-9 | head -c12)
-```
+```<br />
 Kita dapat menggunakan random string A-Z, a-z, dan 1-9 memakai ``/dev/urandom`` dengan ``tr``, lalu ambil bagian depan saja menggunakan ``head -c12``.<br />
 5. Mencetak password.<br />
 ```sh
