@@ -219,11 +219,13 @@ while test -e "password$suffix.txt"
     done
  ```
  <br />
- 3. Kemudian, membuat nama file.<br />
- ```sh
- fname="password$suffix.txt" 
- ```
- Kode di atas berfungsi untuk menamai file yang belum ada.
+ 3. Kemudian, membuat nama file.
+ <br />
+```sh
+fname="password$suffix.txt" 
+```
+<br />
+Kode di atas berfungsi untuk menamai file yang belum ada.
 <br />
 4. Menggunakan random string.<br />
 ```sh
@@ -258,7 +260,7 @@ e. dan buatkan juga bash script untuk dekripsinya.
 ### JAWAB: [soal4.sh](/soal4.sh)
 ### PENJELASAN:
 **Script :**
-```ruby
+```sh
 #!/bin/bash
 
 lowerCase=(a b c d e f g h i j k l m n o p q r s t u v w x y z)
@@ -282,7 +284,7 @@ cat "/var/log/syslog" | tr '[a-z]' "[$bawah-za-$bawah]" | tr '[A-Z]' "[$atas-ZA-
 Menggunakan command tr. File syslog diambil dengan command cat setelah itu char yang berada pada range [a-z] akan diubah menjadi [c-za-c] satu persatu apabila $jam menunjukkan 2 (maksudnya a menjadi c, b menjadi d, c menjadi e, dst). Range [b-za-b] maksudnya adalah dari char b s/d z dilanjut a s/d b. Selanjutnya untuk huruf besar dilakukan cara yang sama seperti sebelumnya.
 <br />
 Kemudian, menggunakan crontab dengan konfigurasi sebagai berikut:
-```ruby
+```sh
 0 * * * * /bin/bash /path/to/script
 #atau
 @hourly /bin/bash /path/to/script  
