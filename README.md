@@ -209,7 +209,7 @@ suffix=1
 ```
 ``number=1`` berfungsi sebagai temporary untuk memeriksa file yang nantinya ada.<br />
 ``suffix=1`` berfungsi agar file nantinya dimulai dengan nama "password1.txt"
-<br />
+<br /> <br />
 2. Kemudian, melakukan looping menggunakan ``while`` ketika ``test -e "password$suffix"`` , untuk pemeriksaan keberadaan file itu apakah ada atau tidak, apabila file tersebut ada, maka akan terjadi looping yang menambahkan +1 ke dalam ``suffix`` hingga ke file yang belum ada.<br />
 ```sh
 while test -e "password$suffix.txt"
@@ -222,12 +222,12 @@ while test -e "password$suffix.txt"
 ```sh
 fname="password$suffix.txt"
 ```
-Kode di atas berfungsi untuk menamai file yang belum ada. <br> <br>
+Kode di atas berfungsi untuk menamai file yang belum ada. <br /> <br />
 4. Menggunakan random string.
 ```sh
 randomnum=$(</dev/urandom tr -dc A-Z-a-z-0-9 | head -c12)
 ```
-Kita dapat menggunakan random string A-Z, a-z, dan 1-9 memakai ``/dev/urandom`` dengan ``tr``, lalu ambil bagian depan saja menggunakan ``head -c12``.<br> <br>
+Kita dapat menggunakan random string A-Z, a-z, dan 1-9 memakai ``/dev/urandom`` dengan ``tr``, lalu ambil bagian depan saja menggunakan ``head -c12``.<br /> <br />
 5. Mencetak password.
 ```sh
 echo "$randomnum" > "$fname"
