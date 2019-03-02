@@ -13,36 +13,37 @@ country=$(
       print country[n]
     }
   ' OFS=',' WA_Sales_Products_2012-14.csv 
-) 
-
-readarray -t produkLine < <(
-  awk -F',' '
-    {
-      if(NR>1 && $1==negara && $7==2012) { produkLine[$4]=produkLine[$4]+$10 }
-    }
-    END{
-      n=asorti(produkLine, namaProdukLine)
-      print "Tiga product line yang memberikan penjualan(quantity) terbanyak pada negara " negara " : " > "HasilSoalB.txt"
-      for (i=0; i<3; i++){
-        print "- " namaProdukLine[n-i] "(" produkLine[namaProdukLine[n-i]] ")" > "HasilSoalB.txt"
-        print namaProdukLine[n-i]
-      }
-    }
-  ' OFS=',' negara="${country}"  WA_Sales_Products_2012-14.csv
 )
 
-for i in 0 1 2
-do
-  awk -F',' '
-    {
-        if(NR>1 && $4==produkLine && $1==negara && $7==2012) { produk[$5]=produk[$5]+$10 }
+readarray -t produkLine < <(awk -F, '
+  {
+    if($7 == '2012' && $1==negara) iter[$4]+=$10
+  } 
+  END{
+    for(hasil in iter) {
+      print iter[hasil], hasil
     }
-    END{
-      n=asorti(produk, namaProduk)
-      print "Tiga product yang memberikan penjualan(quantity) terbanyak berdasarkan tiga product line yang didapatkan pada Produk Line " produkLine " : " >> "HasilSoalC.txt"
-      for (i=0; i<3; i++){
-        print "- " namaProduk[n-i] "(" produk[namaProduk[n-i]] ")" >> "HasilSoalC.txt"
-      }
+  }
+' negara="${country}" WA_Sales_Products_2012-14.csv OFS=',' | sort -nr | head -n3 | awk -F, '
+  BEGIN{
+    print "Tiga product line yang memberikan penjualan(quantity) terbanyak pada negara " negara " : " > "HasilSoalB.txt"
+  }
+  {
+    print "- " $2 > "HasilSoalB.txt"
+    print $2
+  }')
+
+awk -F, '
+  {
+    if(($7 == '2012' && $1=="United States")  && ($4==produkLine1 || $4==produkLine2 || $4==produkLine3)) iter[$6]+=$10
+  } 
+  END{
+    for(hasil in iter) {print iter[hasil], hasil
     }
-  ' OFS=',' produkLine="${produkLine[$i]}" negara="${country}"  WA_Sales_Products_2012-14.csv
-done
+  }' produkLine1="${produkLine[0]}" produkLine2="${produkLine[1]}" produkLine3="${produkLine[2]}" WA_Sales_Products_2012-14.csv OFS=',' | sort -nr | head -n3 | awk -F, '
+  BEGIN{
+    print "Tiga product yang memberikan penjualan(quantity) terbanyak berdasarkan tiga product line yang didapatkan pada Produk Line :" > "HasilSoalC.txt"
+  }
+  {
+    print "- " $2 >> "HasilSoalC.txt"
+  }' 
