@@ -1,7 +1,17 @@
-echo "Enter the file: "
-read times
-hour=${times:0:2}
+#!/bin/bash
 
-lowercase="abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"
-uppercase="ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
-awk '{print}' "/home/hp/sisop1/soal4_encrypt/$times" | tr "${lowercase:$hour:26}${uppercase:$hour:26}" "${lowercase:0:26}${uppercase:0:26}" | awk '{print}' > "/home/hp/sisop1/soal4_decrypt/$times"
+lowerCase=(a b c d e f g h i j k l m n o p q r s t u v w x y z)
+upperCase=(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z)
+
+
+for file in encrypted/*.txt
+do
+    hour=${file:10:2}
+    hour=${hour:1:2}
+    let reverse=$hour*-1
+    filename=${file:10:16}
+    lower=${lowerCase[$reverse]}
+    upper=${upperCase[$reverse]}
+
+    cat "$file" | tr '[a-z]' "[$lower-za-$lower]" | tr '[A-Z]' "[$upper-ZA-$upper]" >> decrypted/"$filename".txt
+done
