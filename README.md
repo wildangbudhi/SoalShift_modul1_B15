@@ -92,21 +92,23 @@ c. Tentukan tiga product yang memberikan penjualan(quantity) terbanyak berdasark
 		```
 - (B) Tentukan tiga product line yang memberikan penjualan(quantity) terbanyak pada soal poin a.
     ```sh
-    readarray -t produkLine < <(
-	  awk -F',' '
-	    {
-	      if(NR>1 && $1==negara && $7==2012) { produkLine[$4]=produkLine[$4]+$10 }
-	    }
-	    END{
-	      n=asorti(produkLine, namaProdukLine)
-	      print "Tiga product line yang memberikan penjualan(quantity) terbanyak pada negara " negara " : " > "HasilSoalB.txt"
-	      for (i=0; i<3; i++){
-		print "- " namaProdukLine[n-i] "(" produkLine[namaProdukLine[n-i]] ")" > "HasilSoalB.txt"
-		print namaProdukLine[n-i]
-	      }
-	    }
-	  ' OFS=',' negara="${country}"  WA_Sales_Products_2012-14.csv
-	)
+    readarray -t produkLine < <(awk -F, '
+	  {
+		if($7 == '2012' && $1==negara) iter[$4]+=$10
+	  } 
+	  END{
+		for(hasil in iter) {
+		  print iter[hasil], hasil
+		}
+	  }
+	' negara="${country}" WA_Sales_Products_2012-14.csv OFS=',' | sort -nr | head -n3 | awk -F, '
+	  BEGIN{
+		print "Tiga product line yang memberikan penjualan(quantity) terbanyak pada negara " negara " : " > "HasilSoalB.txt"
+	  }
+	  {
+		print "- " $2 > "HasilSoalB.txt"
+		print $2
+	  }')
     ```
     **PENJELASAN :**
 	- Masukkan hasil output AWK kedalam bash Variable array dengan membedakan element arraynya dari '\n'
@@ -115,19 +117,24 @@ c. Tentukan tiga product yang memberikan penjualan(quantity) terbanyak berdasark
 		```
    	- Pilih data yang bukan merupaka Header dari data, memiliki Atribute Tahun dengan nilai 2012 dan memiliki Atribute Negara bernilai sama dengan Variable negara. Lalu lakukan penjumlahan setiap penjualan dengan metode Counting Array namun menggunakan Dictionary dikarenakan key tidak Integer seperti index Array
 		```sh
-		if(NR>1 && $1==negara && $7==2012) { produkLine[$4]=produkLine[$4]+$10 }
+		if($7 == '2012' && $1==negara) iter[$4]+=$10
 		```
-	- Urutkan (sort) Dictionary descending dengan meletakkan key (berisi nama ProdukLine) yang pada array 'namaProdukLine' dan mereturnkan jumlah data Dictionary di masukkan ke dalam variabel n.
+	- Print semua hasil iter
 		```sh
-		n=asorti(produkLine, namaProdukLine)
+		for(hasil in iter) {
+		  print iter[hasil], hasil
+		}
 		```
-	- Cetak pada file untuk hasil
+	- Urutkan data dan ambil 3 data teratas lali pipe output kedalah awk lain untuk mengcetak semua nya
 		```sh
-		 print "- " namaProdukLine[n-i] "(" produkLine[namaProdukLine[n-i]] ")" > "HasilSoalB.txt"
-		```
-	- Print untuk output yang nantinya digunakan untuk variable array bash
-		```sh
-		print namaProdukLine[n-i]
+		| sort -nr | head -n3 | awk -F, '
+		  BEGIN{
+			print "Tiga product line yang memberikan penjualan(quantity) terbanyak pada negara " negara " : " > "HasilSoalB.txt"
+		  }
+		  {
+			print "- " $2 > "HasilSoalB.txt"
+			print $2
+		  }')
 		```
 	- Passing variabel bash ke dalam AWK
 		```sh
@@ -135,37 +142,32 @@ c. Tentukan tiga product yang memberikan penjualan(quantity) terbanyak berdasark
 		```
 - (C) Tentukan tiga product yang memberikan penjualan(quantity) terbanyak berdasarkan tiga product line yang didapatkan pada soal poin b.
     ```sh
-    for i in 0 1 2
-	do
-	  awk -F',' '
-	    {
-		if(NR>1 && $4==produkLine && $1==negara && $7==2012) { produk[$5]=produk[$5]+$10 }
-	    }
-	    END{
-	      n=asorti(produk, namaProduk)
-	      print "Tiga product yang memberikan penjualan(quantity) terbanyak berdasarkan tiga product line yang didapatkan pada Produk Line " produkLine " : " >> "HasilSoalC.txt"
-	      for (i=0; i<3; i++){
-		print "- " namaProduk[n-i] "(" produk[namaProduk[n-i]] ")" >> "HasilSoalC.txt"
-	      }
-	    }
-	  ' OFS=',' produkLine="${produkLine[$i]}" negara="${country}"  WA_Sales_Products_2012-14.csv
-	done
+    awk -F, '
+	  {
+		if(($7 == '2012' && $1=="United States")  && ($4==produkLine1 || $4==produkLine2 || $4==produkLine3)) iter[$6]+=$10
+	  } 
+	  END{
+		for(hasil in iter) {
+			print iter[hasil], hasil
+		}
+	  }' produkLine1="${produkLine[0]}" produkLine2="${produkLine[1]}" produkLine3="${produkLine[2]}" WA_Sales_Products_2012-14.csv OFS=',' | sort -nr | head -n3 | awk -F, '
+	  BEGIN{
+		print "Tiga product yang memberikan penjualan(quantity) terbanyak berdasarkan tiga product line yang didapatkan pada Produk Line :" > "HasilSoalC.txt"
+	  }
+	  {
+		print "- " $2 >> "HasilSoalC.txt"
+	  }' 
     ```
     **PENJELASAN :**
-	- Loop dari 0 sampai 2 untuk mengakses array hasil dari soal b
+	- Pilih data yang bukan merupaka Header dari data, memiliki Atribute Tahun dengan nilai 2012, memiliki Atribute Negara bernilai sama dengan Variable negara dan memiliki Atribute ProdukLine sama dengan variabel produkLine1 atau produkLine2 atau produkLine3. Lalu lakukan penjumlahan setiap penjualan dengan metode Counting Array namun menggunakan Dictionary dikarenakan key tidak Integer seperti index Array
 		```sh
-		for i in 0 1 2
-		do
-		  ------ code ------
-		done
+		if(($7 == '2012' && $1=="United States")  && ($4==produkLine1 || $4==produkLine2 || $4==produkLine3)) iter[$6]+=$10
 		```
-	- Pilih data yang bukan merupaka Header dari data, memiliki Atribute Tahun dengan nilai 2012, memiliki Atribute Negara bernilai sama dengan Variable negara dan memiliki Atribute ProdukLine sama dengan variabel produkLine. Lalu lakukan penjumlahan setiap penjualan dengan metode Counting Array namun menggunakan Dictionary dikarenakan key tidak Integer seperti index Array
+	- Print semua hasil iter
 		```sh
-		if(NR>1 && $4==produkLine && $1==negara && $7==2012) { produk[$5]=produk[$5]+$10 }
-		```
-	- Urutkan (sort) Dictionary descending dengan meletakkan key (berisi nama Produk) yang pada array 'namaProduk' dan mereturnkan jumlah data Dictionary di masukkan ke dalam variabel n.
-		```sh
-		n=asorti(produk, namaProduk)
+		for(hasil in iter) {
+		  print iter[hasil], hasil
+		}
 		```
 	- Cetak pada file untuk hasil
 		```sh
@@ -174,9 +176,19 @@ c. Tentukan tiga product yang memberikan penjualan(quantity) terbanyak berdasark
 			print "- " namaProduk[n-i] "(" produk[namaProduk[n-i]] ")" >> "HasilSoalC.txt"
 		}
 		```
-   	- Passing variabel bash ke dalam AWK
+   	- Urutkan data dan ambil 3 data teratas lali pipe output kedalah awk lain untuk mengcetak semua nya
 		```sh
-		produkLine="${produkLine[$i]}" negara="${country}"
+		| sort -nr | head -n3 | awk -F, '
+		  BEGIN{
+			print "Tiga product yang memberikan penjualan(quantity) terbanyak berdasarkan tiga product line yang didapatkan pada Produk Line :" > "HasilSoalC.txt"
+		  }
+		  {
+			print "- " $2 >> "HasilSoalC.txt"
+		  }' 
+		```
+	- Passing variabel bash ke dalam AWK
+		```sh
+		negara="${country}" produkLine1="${produkLine[0]}" produkLine2="${produkLine[1]}" produkLine3="${produkLine[2]}"
 		```
 
 <br>
@@ -254,54 +266,107 @@ d. Backup file syslog setiap jam.
 e. dan buatkan juga bash script untuk dekripsinya.
 
 ### JAWAB: [soal4_encrypt.sh](/soal4_encrypt.sh) | [soal4_decrypt.sh](./soal4_decrypt.sh)
-**Script Encrypt:**
+### Script Encrypt:
 ```sh
-hour=`date +"%H"`
-filename=`date +"%H:%M %d-%m-%Y"`
+#!/bin/bash
 
-lowercase="abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"
-uppercase="ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
+lowerCase=(a b c d e f g h i j k l m n o p q r s t u v w x y z)
+upperCase=(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z)
 
-cat /var/log/syslog | tr "${lowercase:0:26}${uppercase:0:26}" "${lowercase:$hour:26}${uppercase:$hour:26}" > "/home/hp/sisop1/soal4_encrypt/$filename"
+hour=`date "+%H"`
 
+filename=`date "+%H:%M %d-%m-%Y"`
 
+lower=${lowerCase[${hour:1:2}]}
+upper=${upperCase[${hour:1:2}]}
+
+cat /var/log/syslog | tr '[a-z]' "[$lower-za-$lower]" | tr '[A-Z]' "[$upper-ZA-$upper]" >> encrypted/"$filename".txt
 ```
-**Script Decrypt:**
+**PENJELASAN:**
+- Pertama kami membuat 2 array berisi semua huruf kecil dan huruf bersar
+	```sh
+	lowerCase=(a b c d e f g h i j k l m n o p q r s t u v w x y z)
+	upperCase=(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z)
+	```
+- Lalu kami mengambil jam untuk proses encrypsi dan dimasukkan kedalam variable hour
+	```sh
+	hour=`date "+%H"`
+	```
+- Lalu kami mengambil tanggal dengan format HH:MM dd-mm-yyyy yang nantinya akan digunakan sebagai nama file 
+	```sh
+	filename=`date "+%H:%M %d-%m-%Y"`
+	```
+- Lalu kami simpan hurud denga index berdasarkan jam
+	```sh
+	lower=${lowerCase[${hour:1:2}]}
+	upper=${upperCase[${hour:1:2}]}
+	```
+- Untuk menampilkan isi syslog yang kemudian akan men-”shift” setiap huruf kecil dan kapital ke kanan sebanyak $hour. Namun jika sampai Z akan kembali lagi ke A menggunakan dan diletakkan ke dalam file bernamakan dari variable ```filename``` yang berada didalam folder encrypted
+	```sh
+	cat /var/log/syslog | tr '[a-z]' "[$lower-za-$lower]" | tr '[A-Z]' "[$upper-ZA-$upper]" >> encrypted/"$filename".txt
+	```
+
+
+### Script Decrypt:
 ```sh
-echo "Enter the file: "
-read times
-hour=${times:0:2}
+#!/bin/bash
 
-lowercase="abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"
-uppercase="ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
-awk '{print}' "/home/hp/sisop1/soal4_encrypt/$times" | tr "${lowercase:$hour:26}${uppercase:$hour:26}" "${lowercase:0:26}${uppercase:0:26}" | awk '{print}' > "/home/hp/sisop1/soal4_decrypt/$times"
+lowerCase=(a b c d e f g h i j k l m n o p q r s t u v w x y z)
+upperCase=(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z)
 
+
+for file in encrypted/*.txt
+do
+    hour=${file:10:2}
+    hour=${hour:1:2}
+    let reverse=$hour*-1
+    filename=${file:10:16}
+    lower=${lowerCase[$reverse]}
+    upper=${upperCase[$reverse]}
+
+    cat "$file" | tr '[a-z]' "[$lower-za-$lower]" | tr '[A-Z]' "[$upper-ZA-$upper]" >> decrypted/"$filename".txt
+done
 ```
+
+**PENJELASAN:**
+- Pertama kami membuat 2 array berisi semua huruf kecil dan huruf bersar
+	```sh
+	lowerCase=(a b c d e f g h i j k l m n o p q r s t u v w x y z)
+	upperCase=(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z)
+	```
+- Lalu kita lakukan iterasi setiap file yang ada di dalam folder ```encrypted``` dan memiliki extensi ```.txt```
+	```sh
+	for file in encrypted/*.txt
+	do
+		------ code ------
+	done
+	```
+- Lalu kita mengambil jam dari namafile tersebut namum mebuatnya menjadi negatif dikarenakan untuk mengembalikan charakter menjadi asal
+	```sh
+	hour=${file:10:2}
+    hour=${hour:1:2}
+	let reverse=$hour*-1
+	```
+- Selanjutnya untuk nama file yang akan tersimpan sebagai hasil decrypt akan memiliki nama yang sama
+	```sh
+	filename=${file:10:16}
+	```
+- Lalu kami simpan hurud denga index berdasarkan jam
+	```sh
+	lower=${lowerCase[$reverse]}
+    upper=${upperCase[$reverse]}
+	```
+- Untuk menampilkan isi dari file tersebut kemudian men-shift ke kanan setiap huruf kecil dan kapital sebanyak indeks $reverse sehingga isi file tersebut kembali seperti semula dan di letakkan kedalam file bernamakan dari variable ```filename``` yang berada didalam folder decrypted
+	```sh
+	cat "$file" | tr '[a-z]' "[$lower-za-$lower]" | tr '[A-Z]' "[$upper-ZA-$upper]" >> decrypted/"$filename".txt
+	```
+
 **crobtab -e:**
 <br />
 ``
-@hourly /bin/bash /home/hp/sisop1/soal4_encrypt.sh
+0 * * * * /bin/bash /home/hp/sisop1/soal4_encrypt.sh
 ``
-### PENJELASAN:
-1. ``sh
-hour=`date +"%H"`
-``<br /> 
-Sintaks ini berfungsi supaya karakter tertentu dapat diterjemahkan dengan urutan (tanggal file terbuat) + (urutan alfabet)
-2. ``sh
-tr "${lowercase:0:26}${uppercase:0:26}" "${lowercase:$hour:26}${uppercase:$hour:26}"
-`` <br />
-Sintaks 'tr' ditulis seperti di atas ini karena ketika setiap huruf sudah diterjemahkan, urutan alfabet pun ikut tergeser.
-3. ``
-lowercase="abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"
-``
-``
-uppercase="ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
-`` <br />
-Urutan alfabel ditulis sebanyak 2 kali supaya alfabet melakukan translate dan bergeser dengan tepat. Kemungkinan terburuk yang bisa terjadi adalah ketika file terbut pada pukul 23. Sehingga tentu huruf z akan menjadi urutan ke 23 + 26 = 49. Hal ini akan teratasi karena jumlah alfabet yang dituliskan 2 kali menghasilkan 52 karakter yang dimana menanggung urutan huruf z yang menjadi ke 49.
-4. Untuk melakukan back up file syslog setiap jam, dituliskan pada pengaturan crontab sebagai berikut: <br />
-``
-@hourly /bin/bash /home/hp/sisop1/soal4_encrypt.sh
-``
+
 
 ## NO5
 Buatlah sebuah script bash untuk menyimpan record dalam syslog yang memenuhi kriteria berikut:
